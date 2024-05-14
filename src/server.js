@@ -13,10 +13,11 @@ const { method, url } = req
 
   if (method === 'GET' && url === '/users') {
     return res
+      .setHeader('Content-type', 'application/json')
       .end(JSON.stringify(users))
   }
 
-  return res.end()
+  return res.writeHead(404).end()
 })
 
 server.listen(3333)

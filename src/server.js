@@ -3,8 +3,15 @@ import { randomUUID } from 'node:crypto'
 
 const users = []
 
-const server = http.createServer((req, res) => {
-const { method, url } = req
+const server = http.createServer(async (req, res) => {
+  const { method, url } = req
+  const buffers = []
+
+  for await (const chunk of req) {
+    buffers.push(chunk)
+  }
+
+  const body = JSON.parse(Buffer.concat(buffers).toString())
 
   if (method === 'GET' && url === '/users') {
     return res
@@ -13,10 +20,12 @@ const { method, url } = req
   }
 
   if (method === 'POST' && url === '/users') {
+    const { name, email } = body
+
     const user = {
       id: randomUUID(),
-      name: 'John Doe',
-      email: 'johndoe@example.com',
+      name,
+      email,
     }
 
     users.push(user)

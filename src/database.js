@@ -1,15 +1,15 @@
 export class Database {
-  database = {}
+  #database = {}
 
   select(table) {
-    return this.database[table] ?? []
+    return this.#database[table] ?? []
   }
 
   insert(table, data) {
-    if (Array.isArray(this.database[table])) {
-      return this.database[table].push(data)
+    if (Array.isArray(this.#database[table])) {
+      return this.#database[table].push(data)
     }
 
-    this.database[table] = [data]
+    this.#database[table] = [data]
   }
 }

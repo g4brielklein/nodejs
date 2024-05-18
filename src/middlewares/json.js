@@ -11,5 +11,5 @@ export async function json(req, res) {
     req.body = null
   }
 
-  req.setHeader('Content-type', 'application/json')
+  res.setHeader('Content-type', 'application/json')
 }

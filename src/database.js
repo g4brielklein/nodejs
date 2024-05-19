@@ -39,11 +39,11 @@ export class Database {
   }
 
   delete(table, id) {
-    const userToDelete = this.#database[table].find(user => user.id === id)
-    const userToDeleteIndex = this.#database.users.indexOf(userToDelete)
-
-    this.#database.users.splice(userToDeleteIndex, 1)
-
-    this.#saveOnFile()
+    const itemIndex = this.#database[table].findIndex(item => item.id === id)
+    
+    if (itemIndex > -1) {
+      this.#database.users.splice(itemIndex, 1)
+      this.#saveOnFile()
+    }
   }
 }

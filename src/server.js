@@ -13,9 +13,8 @@ const server = http.createServer(async (req, res) => {
     return res.writeHead(404).end()
   }
 
-  req.params = JSON.parse(JSON.stringify(req.url.match(route.url).groups))
-
-  console.log(req.params)
+  const routeParams = req.url.match(route.url)
+  req.params = { ...routeParams.groups }
 
   return route.handler(req, res)
 })

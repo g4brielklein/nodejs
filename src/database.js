@@ -38,6 +38,26 @@ export class Database {
     this.#saveOnFile()
   }
 
+  update(table, data) {
+    const { id, name, email } = data
+
+    const itemIndex = this.#database[table].findIndex(item => item.id === id)
+
+    if (itemIndex > -1) {
+      if (name) {
+        this.#database[table][itemIndex].name = name
+      }
+
+      if (email) {
+        this.#database[table][itemIndex].email = email
+      }
+
+      if (name || email) {
+        this.#saveOnFile()
+      }
+    }
+  }
+
   delete(table, id) {
     const itemIndex = this.#database[table].findIndex(item => item.id === id)
     

@@ -9,8 +9,9 @@ export const routes = [
     method: 'GET',
     url: buildRoutePath('/users'),
     handler: (req, res) => {
+      const filters = req.query
       const targetTable = 'users'
-      const users = database.select(targetTable)
+      const users = database.select(targetTable, filters)
 
       return res.end(JSON.stringify(users))
     }

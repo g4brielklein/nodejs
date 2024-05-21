@@ -21,8 +21,25 @@ export class Database {
     })
   }
   
-  select(table) {
-    return this.#database[table] ?? []
+  select(table, filters) {
+    let filteredUsers = this.#database[table]
+  
+    if (!filteredUsers) {
+      return []
+    }
+  
+    const name = filters?.name?.toLowerCase()
+    const email = filters?.email?.toLowerCase()
+  
+    if (name) {
+      filteredUsers = filteredUsers.filter(item => item.name.toLowerCase().includes(name))
+    }
+  
+    if (email) {
+      filteredUsers = filteredUsers.filter(item => item.email.toLowerCase().includes(email))
+    }
+  
+    return filteredUsers
   }
   
   insert(table, data) {

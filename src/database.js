@@ -16,9 +16,6 @@ export class Database {
 
   #saveOnFile() {
     fs.writeFile(filePath, JSON.stringify(this.#database, null, 2))
-    .then(() => {
-      console.log('File writen successfully')
-    })
     .catch(err => {
       console.log('Error writing file', err)
     })

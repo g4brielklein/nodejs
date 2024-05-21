@@ -15,8 +15,8 @@ const server = http.createServer(async (req, res) => {
   }
 
   const routeParams = req.url.match(route.url)
-  const { query, ...params } = routeParams
-  
+  const { query, ...params } = routeParams.groups
+
   req.params = params
   req.query = query ? extractQueryParams(query) : {}
 

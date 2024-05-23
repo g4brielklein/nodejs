@@ -10,10 +10,12 @@ export const routes = [
     url: buildRoutePath('/users'),
     handler: (req, res) => {
       const { search } = req.query
-      const columnsToSearch = ['name', 'email']
       const targetTable = 'users'
 
-      const users = database.select(targetTable, search, columnsToSearch)
+      const users = database.select(targetTable, search ? { 
+        name: search, 
+        email: search 
+      } : null)
 
       return res.end(JSON.stringify(users))
     }

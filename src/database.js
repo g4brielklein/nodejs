@@ -21,21 +21,13 @@ export class Database {
     })
   }
 
-  select(table, search, columnsToSearch) {
+  select(table, searchOptions) {
     if (!this.#database[table]) return []
 
-    if (search && columnsToSearch) {
-      const searchTerm = search.toLowerCase()
-      let foundItems = []
-
-      columnsToSearch.forEach(columnToSearch => {
-        foundItems.push(...this.#database[table].filter(item => {
-          const index = foundItems.findIndex(foundItem => foundItem.id === item.id)
-          if (index === -1) return item[columnToSearch]?.toLowerCase().includes(searchTerm)
-        }))
+    if (searchOptions) {
+      return this.#database[table].filter(item => {
+        return Object.entries(searchOptions).some(([key, value]) => item[key].toLowerCase().includes(value.toLowerCase()))
       })
-
-      return foundItems
     }
   
     return this.#database[table]

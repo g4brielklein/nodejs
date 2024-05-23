@@ -20,26 +20,25 @@ export class Database {
       console.log('Error writing file', err)
     })
   }
-  
-  select(table, filters) {
-    let filteredUsers = this.#database[table]
-  
-    if (!filteredUsers) {
-      return []
+
+  select(table, search, columnsToSearch) {
+    if (!this.#database[table]) return []
+
+    if (search && columnsToSearch) {
+      const searchTerm = search.toLowerCase()
+      let foundItems = []
+
+      columnsToSearch.forEach(columnToSearch => {
+        foundItems.push(...this.#database[table].filter(item => {
+          const index = foundItems.findIndex(foundItem => foundItem.id === item.id)
+          if (index === -1) return item[columnToSearch]?.toLowerCase().includes(searchTerm)
+        }))
+      })
+
+      return foundItems
     }
   
-    const name = filters?.name?.toLowerCase()
-    const email = filters?.email?.toLowerCase()
-  
-    if (name) {
-      filteredUsers = filteredUsers.filter(item => item.name.toLowerCase().includes(name))
-    }
-  
-    if (email) {
-      filteredUsers = filteredUsers.filter(item => item.email.toLowerCase().includes(email))
-    }
-  
-    return filteredUsers
+    return this.#database[table]
   }
   
   insert(table, data) {
@@ -76,7 +75,7 @@ export class Database {
     const itemIndex = this.#database[table].findIndex(item => item.id === id)
     
     if (itemIndex > -1) {
-      this.#database.users.splice(itemIndex, 1)
+      this.#database[table].splice(itemIndex, 1)
       this.#saveOnFile()
     }
   }
